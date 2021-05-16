@@ -81,3 +81,10 @@ fun orderNotification(orderComplete: Boolean) {
         throw Exception("No order has been initiated yet.")
     }
 }
+
+fun stockNotification(outOfStock: Boolean, item: String) {
+    if (outOfStock) {
+        println("Unfortunately, we are out of stock of $item. Please check back again in 4-5 business days once the stock is replenished.")
+        orderNotification(orderComplete = false)
+    }
+}
