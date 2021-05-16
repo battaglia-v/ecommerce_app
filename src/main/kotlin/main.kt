@@ -13,5 +13,3 @@ fun main() {
     printOrder(newOrder.items)
     calculateOrderTotal(newOrder)
 }
-
-
