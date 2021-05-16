@@ -2,7 +2,6 @@ package main.model.model.order
 
 import main.model.model.products.Apple
 import main.model.model.products.Orange
-import main.model.model.products.ProductBase
 
 class OrderService {
     fun parseUserInput(): String = readLine()!!
@@ -26,6 +25,7 @@ fun parseOrderInput(userInput: String): Order {
                 ) + 1
             )
         } else {
+            orderNotification(orderComplete = false)
             throw IllegalStateException("$it is not a valid product. Your order cannot be fulfilled.")
         }
     }
@@ -34,6 +34,7 @@ fun parseOrderInput(userInput: String): Order {
 
 fun calculateOrderTotal(order: Order): Double {
     if (order.items.size < 1) {
+        orderNotification(orderComplete = false)
         throw Exception("Your order does not contain any items.")
     }
     var priceTotal = 0.0
@@ -56,15 +57,27 @@ fun calculateOrderTotal(order: Order): Double {
                 ((orangeCount - (orangeCount / 3)) * Orange().price) + (remainder * Orange().price)
             }
         } else {
+            orderNotification(orderComplete = false)
             throw Exception("Your order contains items that cannot be calculated.")
         }
     }
     println("The total amount for your order is $$priceTotal")
+    orderNotification(orderComplete = true)
     return priceTotal
 }
 
 fun printOrder(map: HashMap<String, Int>) {
     for ((key, value) in map) {
         println("${key}=$value")
+    }
+}
+
+fun orderNotification(orderComplete: Boolean) {
+    if (orderComplete)
+        println("Order has been successfully placed - please allow 2-3 business days for shipment to arrive.")
+    else if (!orderComplete)
+        println("Unfortunately, your order cannot be processed at this time. Please try again later.")
+    else {
+        throw Exception("No order has been initiated yet.")
     }
 }
