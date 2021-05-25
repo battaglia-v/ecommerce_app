@@ -12,21 +12,21 @@ fun parseOrderInput(userInput: String): Order {
     val itemsMap = newOrder.items
 
     userInput.lowercase().split(',').map {
-        if (it == "apple") {
-            itemsMap.put(
+        when (it) {
+            "apple" -> itemsMap.put(
                 "apple", itemsMap.getOrDefault(
                     "apple", 0
                 ) + 1
             )
-        } else if (it == "orange") {
-            itemsMap.put(
+            "orange" -> itemsMap.put(
                 "orange", itemsMap.getOrDefault(
                     "orange", 0
                 ) + 1
             )
-        } else {
-            orderNotification(orderComplete = false)
-            throw IllegalStateException("$it is not a valid product. Your order cannot be fulfilled.")
+            else -> {
+                orderNotification(orderComplete = false)
+                throw IllegalStateException("$it is not a valid product. Your order cannot be fulfilled.")
+            }
         }
     }
     return newOrder
